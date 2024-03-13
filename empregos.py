@@ -48,4 +48,4 @@ df["job_title"] = df["job_title"].str.lower()
 df = df[df["job_title"].str.contains("analista|dados|dado|b.i.|b.i|power|inteligência|inteligencia|business|intelligence")]
 
 df.to_excel("C:\\Users\\diogo\\Downloads\\empregos.xlsx", sheet_name = "empregos")
-df
+print(df)
