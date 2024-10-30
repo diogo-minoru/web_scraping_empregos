@@ -28,15 +28,19 @@ def parse_jobs(urls):
     for url in urls:
         response = session.get(url)
         size = len(response.html.find("div.card-anuncio.mb-3"))
-        for i in range(0, size):
+
+        for i in range(1, size):
+   #         print(i)
+
             job =  {
                 "job_title": response.html.find("b.flex-wrap")[i].text,
-                "company_name": response.html.find("div.text-muted.mt-1")[i].text,
-                "job_area": response.html.find("p.descricao small")[i].text,
+                #"company_name": response.html.find("div.text-muted.mt-1")[i].text,
+                #"job_area": response.html.find("p.descricao small")[i].text,
                 "publication_date": response.html.find("small.text-nowrap.ml-4")[i].text,
                 "job_link": response.html.find("a.flex-wrap[href]")[i].attrs["href"]
             }
             jobs_list.append(job)
+
         time.sleep(1)
 
 if __name__ == "__main__":
