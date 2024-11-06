@@ -30,12 +30,10 @@ def parse_jobs(urls):
         size = len(response.html.find("div.card-anuncio.mb-3"))
 
         for i in range(1, size):
-   #         print(i)
-
             job =  {
                 "job_title": response.html.find("b.flex-wrap")[i].text,
-                #"company_name": response.html.find("div.text-muted.mt-1")[i].text,
-                #"job_area": response.html.find("p.descricao small")[i].text,
+                "company_name": response.html.find("div.d-none.d-md-block")[i].text,
+                "job_area": response.html.find("p.descricao small")[i].text,
                 "publication_date": response.html.find("small.text-nowrap.ml-4")[i].text,
                 "job_link": response.html.find("a.flex-wrap[href]")[i].attrs["href"]
             }
@@ -47,9 +45,9 @@ if __name__ == "__main__":
     main()
 
 df = pd.DataFrame(jobs_list)
-df["publication_date"] = pd.to_datetime(df["publication_date"], format = "%d/%m/%Y %H:%M").dt.strftime("%d/%m/%Y %H:%M")
-df["job_title"] = df["job_title"].str.lower()
-df = df[df["job_title"].str.contains("analista|dados|dado|b.i.|b.i|power|inteligência|inteligencia|business|intelligence")]
+#df["publication_date"] = pd.to_datetime(df["publication_date"], format = "%d/%m/%Y %H:%M").dt.strftime("%d/%m/%Y %H:%M")
+#df["job_title"] = df["job_title"].str.lower()
+#df = df[df["job_title"].str.contains("analista|dados|dado|b.i.|b.i|power|inteligência|inteligencia|business|intelligence")]
 
 df.to_excel("C:\\Users\\diogo\\Downloads\\empregos.xlsx", sheet_name = "empregos")
 print(df)
