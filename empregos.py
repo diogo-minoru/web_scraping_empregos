@@ -20,22 +20,21 @@ def main():
 def parse_page_links():
     all_links = list()
     for page in range(1, LAST_PAGE + 1):
-        url = f"https://empregos.maringa.com/?area=&bairro=&cidade=&estado=&experiencia=&faixa_salarial=&text=&vagas-de-emprego={page}"
+        url = f"https://empregos.maringa.com/?vagas-de-emprego={page}"
         all_links.append(url)
     return all_links
 
 def parse_jobs(urls):
     for url in urls:
         response = session.get(url)
-        size = len(response.html.find("div.card-anuncio.mb-3"))
-
-        for i in range(1, size):
+        #size = len(response.html.find("div.card-anuncio.mb-3"))
+        for r in response:
             job =  {
-                "job_title": response.html.find("b.flex-wrap")[i].text,
-                "company_name": response.html.find("div.d-none.d-md-block")[i].text,
-                "job_area": response.html.find("p.descricao small")[i].text,
-                "publication_date": response.html.find("small.text-nowrap.ml-4")[i].text,
-                "job_link": response.html.find("a.flex-wrap[href]")[i].attrs["href"]
+                "job_title": r.html.find("b.flex-wrap").text,
+                "company_name": r.html.find("div.d-none.d-md-block").text,
+                "job_area": r.html.find("p.descricao small").text,
+                "publication_date": r.html.find("small.text-nowrap.ml-4").text,
+                "job_link": r.html.find("a.flex-wrap[href]").attrs["href"]
             }
             jobs_list.append(job)
 
@@ -49,5 +48,5 @@ df = pd.DataFrame(jobs_list)
 #df["job_title"] = df["job_title"].str.lower()
 #df = df[df["job_title"].str.contains("analista|dados|dado|b.i.|b.i|power|inteligência|inteligencia|business|intelligence")]
 
-df.to_excel("C:\\Users\\diogo\\Downloads\\empregos.xlsx", sheet_name = "empregos")
+#df.to_excel("C:\\Users\\diogo\\Downloads\\empregos.xlsx", sheet_name = "empregos")
 print(df)
